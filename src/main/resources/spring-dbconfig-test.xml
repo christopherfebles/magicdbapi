@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:p="http://www.springframework.org/schema/p" 
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/mvc 
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd
+            http://www.springframework.org/schema/jdbc 
+            http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+    <context:property-placeholder location="classpath*:magicdb-test.properties" />
+
+    <bean name="dataSource"
+        class="com.christopherfebles.magic.datasource.EmbeddedInitializedConnectionDataSource"
+        destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url"
+            value="jdbc:mysql:mxj://localhost:${magic.dbTestPort}/test?server.socket=mysqltestdb.sock&amp;useUnicode=true&amp;characterEncoding=UTF-8" />
+        <property name="username" value="root" />
+        <property name="password" value="" />
+    </bean>
+
+    <jdbc:initialize-database data-source="dataSource">
+        <jdbc:script location="classpath:CreateDatabase.sql" />
+        <jdbc:script location="classpath:CreateTables.sql" />
+        <jdbc:script location="classpath:CreateTestUser.sql" />
+    </jdbc:initialize-database>
+
+</beans>

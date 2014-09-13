@@ -1,0 +1,1 @@
+Create Database if not exists MagicDB  DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_unicode_ci;/* Make sure database and tables are created using UTF8 encoding */
